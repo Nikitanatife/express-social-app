@@ -11,7 +11,8 @@
     "node",
     "mongoose",
     "express",
-    "rest-api"
+    "rest-api",
+    "javascript"
   ],
   "author": "Oleg Voitiuk",
   "license": "ISC",
@@ -24,6 +25,7 @@
     "prettier": "^2.7.1"
   },
   "dependencies": {
+    "config": "^3.3.7",
     "express": "^4.18.1"
   }
 }
