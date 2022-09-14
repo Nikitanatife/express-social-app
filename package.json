@@ -12,7 +12,8 @@
     "mongoose",
     "express",
     "rest-api",
-    "javascript"
+    "javascript",
+    "jsdoc"
   ],
   "author": "Oleg Voitiuk",
   "license": "ISC",
@@ -20,12 +21,15 @@
     "eslint": "^8.23.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-jsdoc": "^39.3.6",
     "eslint-plugin-prettier": "^4.2.1",
+    "jsdoc": "^3.6.11",
     "nodemon": "^2.0.19",
     "prettier": "^2.7.1"
   },
   "dependencies": {
     "config": "^3.3.7",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "mongoose": "^6.6.1"
   }
 }
