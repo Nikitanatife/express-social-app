@@ -23,5 +23,6 @@ module.exports = {
                 },
             },
         ],
+        'new-cap': ['error', { capIsNewExceptions: ['Router'] }],
     },
 };
