@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 const {
-    emailRegEx,
-    emailError,
-    passwordRegEx,
-    passwordError,
-    nameRegEx,
-    nameError,
-    urlRegEx,
-    urlError,
+    EMAIL_REG_EX,
+    EMAIL_ERROR,
+    PASSWORD_REG_EX,
+    PASSWORD_ERROR,
+    USER_NAME_REG_EX,
+    USER_NAME_ERROR,
+    URL_REG_EX,
+    URL_ERROR,
 } = require('../constants');
 
 const Schema = mongoose.Schema;
@@ -19,28 +19,28 @@ const userSchema = new Schema(
             required: true,
             trim: true,
             unique: true,
-            match: [emailRegEx, emailError],
+            match: [EMAIL_REG_EX, EMAIL_ERROR],
         },
         password: {
             type: String,
             required: true,
             trim: true,
             minlength: 8,
-            match: [passwordRegEx, passwordError],
+            match: [PASSWORD_REG_EX, PASSWORD_ERROR],
         },
         firstName: {
             type: String,
             required: true,
             minlength: 2,
             trim: true,
-            match: [nameRegEx, nameError],
+            match: [USER_NAME_REG_EX, USER_NAME_ERROR],
         },
         lastName: {
             type: String,
             required: true,
             minlength: 2,
             trim: true,
-            match: [nameRegEx, nameError],
+            match: [USER_NAME_REG_EX, USER_NAME_ERROR],
         },
         birthDay: { type: Date },
         imageURL: {
@@ -49,7 +49,7 @@ const userSchema = new Schema(
             trim: true,
             default:
                 'https://res.cloudinary.com/freeman999/image/upload/v1589014461/noAvatar2_skj96w.png',
-            match: [urlRegEx, urlError],
+            match: [URL_REG_EX, URL_ERROR],
         },
         bio: { type: String },
         website: { type: String },

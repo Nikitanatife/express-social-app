@@ -1,3 +1,6 @@
+const { validateRequest } = require('../middlewares');
+const { registerSchema } = require('../schemas/user');
+const { requestValidationTargets } = require('../constants');
 const router = require('express').Router();
 
 router.get('/', async (req, res, next) => {
@@ -8,13 +11,20 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-router.post('/register', async (req, res, next) => {
-    try {
-        res.send('Register new user');
-    } catch (err) {
-        next(err);
+router.post(
+    '/register',
+    validateRequest({
+        schema: registerSchema,
+        target: requestValidationTargets.body,
+    }),
+    async (req, res, next) => {
+        try {
+            res.send('Register new user');
+        } catch (err) {
+            next(err);
+        }
     }
-});
+);
 
 router.post('/login', async (req, res, next) => {
     try {
