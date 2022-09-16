@@ -5,5 +5,9 @@
     "dbName": "string"
   },
   "bcryptHashRounds": 10,
-  "jwtSecret": "string"
+  "jwtSecret": "string",
+  "redis": {
+    "url": "string",
+    "password": "string"
+  }
 }

@@ -1,29 +1,7 @@
-const { connect } = require('mongoose');
-const config = require('config');
+const connectMongoDB = require('./mongo-db');
+const redisClient = require('./redis');
 
-const { url, dbName } = config.get('mongoDB');
-
-/**
- * Connect mongoDB
- *
- * @returns {void}
- */
-function connectDB() {
-    connect(
-        url,
-        {
-            // useNewUrlParser: true,
-            // useCreateIndex: true,
-            // useUnifiedTopology: true,
-            // useFindAndModify: false,
-            dbName,
-        },
-        (e) => {
-            if (e) throw new Error(e);
-
-            console.log('MongoDB has connected successfully.');
-        }
-    );
-}
-
-module.exports = connectDB;
+module.exports = {
+    connectMongoDB,
+    redisClient,
+};

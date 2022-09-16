@@ -3,7 +3,7 @@ const config = require('config');
 const cors = require('cors');
 const HttpStatus = require('http-status-codes');
 const logger = require('morgan');
-const connectDB = require('./db');
+const { connectMongoDB, redisClient } = require('./db');
 const { userRouter } = require('./controllers');
 const { INTERNAL_SERVER_ERROR, RESOURCE_NOT_FOUND } = require('./constants');
 
@@ -29,5 +29,6 @@ app.use(logger(formatsLogger))
     })
     .listen(port, () => {
         console.log(`Server started on http://localhost:${port}`);
-        connectDB();
+        connectMongoDB();
+        redisClient.connect();
     });
