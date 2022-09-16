@@ -1,7 +1,11 @@
 const { validateRequest } = require('../middlewares');
 const { registerSchema } = require('../schemas/user');
 const { requestValidationTargets } = require('../constants');
+const { UserService } = require('../services');
+const HttpStatus = require('http-status-codes');
 const router = require('express').Router();
+
+const userService = new UserService();
 
 router.get('/', async (req, res, next) => {
     try {
@@ -19,7 +23,9 @@ router.post(
     }),
     async (req, res, next) => {
         try {
-            res.send('Register new user');
+            const result = await userService.register(req.body);
+
+            res.status(HttpStatus.CREATED).json(result);
         } catch (err) {
             next(err);
         }

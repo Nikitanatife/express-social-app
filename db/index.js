@@ -1,7 +1,7 @@
 const { connect } = require('mongoose');
 const config = require('config');
 
-const mongoURL = config.get('mongoURL');
+const { url, dbName } = config.get('mongoDB');
 
 /**
  * Connect mongoDB
@@ -10,12 +10,13 @@ const mongoURL = config.get('mongoURL');
  */
 function connectDB() {
     connect(
-        mongoURL,
+        url,
         {
             // useNewUrlParser: true,
             // useCreateIndex: true,
             // useUnifiedTopology: true,
             // useFindAndModify: false,
+            dbName,
         },
         (e) => {
             if (e) throw new Error(e);

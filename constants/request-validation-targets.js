@@ -1,5 +1,5 @@
 /**
- * @type {Object<string, string>}
+ * @type {Object<string, 'BODY'|'PATH'|'QUERY'>}
  */
 const requestValidationTargets = {
     body: 'BODY',

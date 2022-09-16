@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 const {
     EMAIL_REG_EX,
     EMAIL_ERROR,
@@ -10,7 +10,18 @@ const {
     URL_ERROR,
 } = require('../constants');
 
-const Schema = mongoose.Schema;
+/**
+ * @typedef {object} UserModel
+ * @property {string} email email
+ * @property {string} password password
+ * @property {string} firstName firstName
+ * @property {string} lastName lastName
+ * @property {Date} [birthDay] birthDay
+ * @property {string} [imageURL] imageURL
+ * @property {string} [bio] bio
+ * @property {string} [website] website
+ * @property {string} [location] location
+ */
 
 const userSchema = new Schema(
     {
@@ -61,6 +72,6 @@ const userSchema = new Schema(
     }
 );
 
-const User = mongoose.model('User', userSchema);
+const User = model('User', userSchema);
 
 module.exports = User;
