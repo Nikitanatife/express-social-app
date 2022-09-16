@@ -1,7 +1,7 @@
 const { User } = require('../models');
 const CustomError = require('../helpers/create-error');
 const HttpStatus = require('http-status-codes');
-const { EMAIL_EXIST } = require('../constants');
+const { EMAIL_EXIST, WRONG_CREDENTIALS } = require('../constants');
 const bcrypt = require('bcrypt');
 const config = require('config');
 const jwt = require('jsonwebtoken');
@@ -46,7 +46,30 @@ class UserService {
 
         return { user, token };
     }
-    async logIn() {}
+
+    /**
+     * User log in
+     *
+     * @param {LoginBodySchema} loginBody
+     * @return {Promise<{ user: UserModel, token: string }>}
+     */
+    async logIn({ email, password }) {
+        const user = await this.getOne({ email });
+
+        if (!user) {
+            throw new CustomError(WRONG_CREDENTIALS, HttpStatus.BAD_REQUEST);
+        }
+
+        const match = await bcrypt.compare(password, user.password);
+
+        if (!match) {
+            throw new CustomError(WRONG_CREDENTIALS, HttpStatus.BAD_REQUEST);
+        }
+
+        const token = jwt.sign({ userId: user.id }, JWT_SECRET);
+
+        return { user, token };
+    }
     async logOut() {}
     async getList() {}
     async getById() {}

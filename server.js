@@ -5,7 +5,7 @@ const HttpStatus = require('http-status-codes');
 const logger = require('morgan');
 const connectDB = require('./db');
 const { userRouter } = require('./controllers');
-const { INTERNAL_SERVER_ERROR } = require('./constants');
+const { INTERNAL_SERVER_ERROR, RESOURCE_NOT_FOUND } = require('./constants');
 
 const app = express();
 const port = config.get('port');
@@ -15,7 +15,10 @@ app.use(logger(formatsLogger))
     .use(cors())
     .use(express.json())
     .use('/api/users', userRouter)
-    .use((err, req, res, next) => {
+    .use((req, res) => {
+        res.status(HttpStatus.NOT_FOUND).json({ message: RESOURCE_NOT_FOUND });
+    })
+    .use((err, req, res) => {
         const {
             status = HttpStatus.INTERNAL_SERVER_ERROR,
             message = INTERNAL_SERVER_ERROR,

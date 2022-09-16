@@ -1,5 +1,5 @@
 const { validateRequest } = require('../middlewares');
-const { registerSchema } = require('../schemas/user');
+const { registerSchema, loginSchema } = require('../schemas/user');
 const { requestValidationTargets } = require('../constants');
 const { UserService } = require('../services');
 const HttpStatus = require('http-status-codes');
@@ -32,13 +32,22 @@ router.post(
     }
 );
 
-router.post('/login', async (req, res, next) => {
-    try {
-        res.send('User login');
-    } catch (err) {
-        next(err);
+router.post(
+    '/login',
+    validateRequest({
+        schema: loginSchema,
+        target: requestValidationTargets.body,
+    }),
+    async (req, res, next) => {
+        try {
+            const result = await userService.logIn(req.body);
+
+            res.json(result);
+        } catch (err) {
+            next(err);
+        }
     }
-});
+);
 
 router.get('/logout', async (req, res, next) => {
     try {

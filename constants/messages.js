@@ -5,6 +5,9 @@ const PASSWORD_ERROR =
 const USER_NAME_ERROR = 'Name must contain letters only';
 const INTERNAL_SERVER_ERROR = 'Internal server error';
 const EMAIL_EXIST = 'Email is already exist';
+const USER_NOT_FOUND = 'User not found';
+const RESOURCE_NOT_FOUND = 'Resource not found';
+const WRONG_CREDENTIALS = 'Wrong credentials, try again';
 
 module.exports = {
     EMAIL_ERROR,
@@ -13,4 +16,7 @@ module.exports = {
     URL_ERROR,
     INTERNAL_SERVER_ERROR,
     EMAIL_EXIST,
+    USER_NOT_FOUND,
+    WRONG_CREDENTIALS,
+    RESOURCE_NOT_FOUND,
 };
