@@ -10,6 +10,7 @@ const RESOURCE_NOT_FOUND = 'Resource not found';
 const WRONG_CREDENTIALS = 'Wrong credentials, try again';
 const UNAUTHORIZED = 'Unauthorized';
 const ALREADY_LOGGED_IN = 'Already logged in';
+const OBJECT_ID_ERROR = 'Not valid ObjectId';
 
 module.exports = {
     EMAIL_ERROR,
@@ -23,4 +24,5 @@ module.exports = {
     RESOURCE_NOT_FOUND,
     UNAUTHORIZED,
     ALREADY_LOGGED_IN,
+    OBJECT_ID_ERROR,
 };

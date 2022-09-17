@@ -5,6 +5,7 @@ const {
     EMAIL_EXIST,
     WRONG_CREDENTIALS,
     ALREADY_LOGGED_IN,
+    USER_NOT_FOUND,
 } = require('../constants');
 const bcrypt = require('bcrypt');
 const config = require('config');
@@ -17,6 +18,7 @@ const { secret: JWT_SECRET, expiration: JWT_EXPIRATION } = config.get('jwt');
 /**
  * @typedef {object} UserFilter
  * @property {string} email email
+ * @property {string} _id id
  */
 
 /**
@@ -100,8 +102,22 @@ class UserService {
     async logOut(userId) {
         await this.redis.del(userId);
     }
-    async getList() {}
-    async getById() {}
+
+    /**
+     * Get user by id
+     *
+     * @param {string} id userId
+     * @returns {Promise<UserModel>} user
+     */
+    async getById(id) {
+        const user = await this.getOne({ _id: id });
+
+        if (!user) {
+            throw new CustomError(USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+        }
+
+        return user;
+    }
 
     /**
      * Get one user instance

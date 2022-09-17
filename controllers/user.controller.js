@@ -1,19 +1,14 @@
 const { validateRequest, isAuthorized } = require('../middlewares');
-const { registerSchema, loginSchema } = require('../schemas/user');
+const {
+    user: { loginSchema, registerSchema },
+    objectIdSchema,
+} = require('../schemas');
 const { requestValidationTargets } = require('../constants');
 const { UserService } = require('../services');
 const HttpStatus = require('http-status-codes');
 const router = require('express').Router();
 
 const userService = new UserService();
-
-router.get('/', async (req, res, next) => {
-    try {
-        res.send('Get all users');
-    } catch (err) {
-        next(err);
-    }
-});
 
 router.post(
     '/register',
@@ -59,13 +54,22 @@ router.get('/logout', isAuthorized, async (req, res, next) => {
     }
 });
 
-router.get('/:id', async (req, res, next) => {
-    try {
-        res.send('Get user by id');
-    } catch (err) {
-        next(err);
+router.get(
+    '/:id',
+    validateRequest({
+        schema: objectIdSchema,
+        target: requestValidationTargets.path,
+    }),
+    async (req, res, next) => {
+        try {
+            const user = await userService.getById(req.params.id);
+
+            res.json(user);
+        } catch (err) {
+            next(err);
+        }
     }
-});
+);
 
 router.delete('/:id', (req, res, next) => {
     try {
