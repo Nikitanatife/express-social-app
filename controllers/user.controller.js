@@ -1,4 +1,4 @@
-const { validateRequest } = require('../middlewares');
+const { validateRequest, isAuthorized } = require('../middlewares');
 const { registerSchema, loginSchema } = require('../schemas/user');
 const { requestValidationTargets } = require('../constants');
 const { UserService } = require('../services');
@@ -49,7 +49,7 @@ router.post(
     }
 );
 
-router.get('/logout', async (req, res, next) => {
+router.get('/logout', isAuthorized, async (req, res, next) => {
     try {
         res.send('User logout');
     } catch (err) {

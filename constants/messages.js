@@ -8,6 +8,7 @@ const EMAIL_EXIST = 'Email is already exist';
 const USER_NOT_FOUND = 'User not found';
 const RESOURCE_NOT_FOUND = 'Resource not found';
 const WRONG_CREDENTIALS = 'Wrong credentials, try again';
+const UNAUTHORIZED = 'Unauthorized';
 
 module.exports = {
     EMAIL_ERROR,
@@ -19,4 +20,5 @@ module.exports = {
     USER_NOT_FOUND,
     WRONG_CREDENTIALS,
     RESOURCE_NOT_FOUND,
+    UNAUTHORIZED,
 };

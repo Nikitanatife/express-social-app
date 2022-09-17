@@ -15,10 +15,10 @@ app.use(logger(formatsLogger))
     .use(cors())
     .use(express.json())
     .use('/api/users', userRouter)
-    .use((req, res) => {
+    .use((req, res, next) => {
         res.status(HttpStatus.NOT_FOUND).json({ message: RESOURCE_NOT_FOUND });
     })
-    .use((err, req, res) => {
+    .use((err, req, res, next) => {
         const {
             status = HttpStatus.INTERNAL_SERVER_ERROR,
             message = INTERNAL_SERVER_ERROR,

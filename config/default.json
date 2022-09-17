@@ -5,7 +5,10 @@
     "dbName": "string"
   },
   "bcryptHashRounds": 10,
-  "jwtSecret": "string",
+  "jwt": {
+    "secret": "string",
+    "expiration": 42
+  },
   "redis": {
     "url": "string",
     "password": "string"

@@ -14,6 +14,7 @@ module.exports = {
         'prettier/prettier': ['error'],
         'require-jsdoc': 'off',
         'valid-jsdoc': 'off',
+        'jsdoc/no-undefined-types': 'off',
         'jsdoc/require-jsdoc': [
             1,
             {

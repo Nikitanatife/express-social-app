@@ -5,9 +5,10 @@ const { EMAIL_EXIST, WRONG_CREDENTIALS } = require('../constants');
 const bcrypt = require('bcrypt');
 const config = require('config');
 const jwt = require('jsonwebtoken');
+const { redisClient } = require('../db');
 
 const BCRYPT_HASH_ROUNDS = config.get('bcryptHashRounds');
-const JWT_SECRET = config.get('jwtSecret');
+const { secret: JWT_SECRET, expiration: JWT_EXPIRATION } = config.get('jwt');
 
 /**
  * @typedef {object} UserFilter
@@ -26,7 +27,7 @@ class UserService {
      * Register new user
      *
      * @param {RegisterBodySchema} registerBody RegisterBodySchema
-     * @return {Promise<{ user: UserModel, token: string }>}
+     * @returns {Promise<{ user: UserModel, token: string }>} returns user and token
      */
     async register({ email, password, ...args }) {
         const existingUser = await this.getOne({ email });
@@ -42,7 +43,11 @@ class UserService {
             password: hashedPassword,
             ...args,
         });
-        const token = jwt.sign({ userId: user.id }, JWT_SECRET);
+        const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
+            expiresIn: JWT_EXPIRATION,
+        });
+
+        await redisClient.setEx(user.id, JWT_EXPIRATION, token);
 
         return { user, token };
     }
@@ -50,8 +55,8 @@ class UserService {
     /**
      * User log in
      *
-     * @param {LoginBodySchema} loginBody
-     * @return {Promise<{ user: UserModel, token: string }>}
+     * @param {LoginBodySchema} loginBody loginBody
+     * @returns {Promise<{ user: UserModel, token: string }>} returns user and token
      */
     async logIn({ email, password }) {
         const user = await this.getOne({ email });
@@ -66,7 +71,11 @@ class UserService {
             throw new CustomError(WRONG_CREDENTIALS, HttpStatus.BAD_REQUEST);
         }
 
-        const token = jwt.sign({ userId: user.id }, JWT_SECRET);
+        const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
+            expiresIn: JWT_EXPIRATION,
+        });
+
+        await redisClient.setEx(user.id, JWT_EXPIRATION, token);
 
         return { user, token };
     }
