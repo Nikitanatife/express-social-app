@@ -1,7 +1,11 @@
 const { User } = require('../models');
 const CustomError = require('../helpers/create-error');
 const HttpStatus = require('http-status-codes');
-const { EMAIL_EXIST, WRONG_CREDENTIALS } = require('../constants');
+const {
+    EMAIL_EXIST,
+    WRONG_CREDENTIALS,
+    ALREADY_LOGGED_IN,
+} = require('../constants');
 const bcrypt = require('bcrypt');
 const config = require('config');
 const jwt = require('jsonwebtoken');
@@ -21,6 +25,7 @@ const { secret: JWT_SECRET, expiration: JWT_EXPIRATION } = config.get('jwt');
 class UserService {
     constructor() {
         this.User = User;
+        this.redis = redisClient;
     }
 
     /**
@@ -47,7 +52,7 @@ class UserService {
             expiresIn: JWT_EXPIRATION,
         });
 
-        await redisClient.setEx(user.id, JWT_EXPIRATION, token);
+        await this.redis.setEx(user.id, JWT_EXPIRATION, token);
 
         return { user, token };
     }
@@ -65,6 +70,12 @@ class UserService {
             throw new CustomError(WRONG_CREDENTIALS, HttpStatus.BAD_REQUEST);
         }
 
+        const authData = await this.redis.get(user.id);
+
+        if (authData) {
+            throw new CustomError(ALREADY_LOGGED_IN, HttpStatus.BAD_REQUEST);
+        }
+
         const match = await bcrypt.compare(password, user.password);
 
         if (!match) {
@@ -75,11 +86,20 @@ class UserService {
             expiresIn: JWT_EXPIRATION,
         });
 
-        await redisClient.setEx(user.id, JWT_EXPIRATION, token);
+        await this.redis.setEx(user.id, JWT_EXPIRATION, token);
 
         return { user, token };
     }
-    async logOut() {}
+
+    /**
+     * User Log Out
+     *
+     * @param {string} userId userId
+     * @returns {Promise<void>}
+     */
+    async logOut(userId) {
+        await this.redis.del(userId);
+    }
     async getList() {}
     async getById() {}
 

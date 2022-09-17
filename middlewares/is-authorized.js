@@ -24,15 +24,13 @@ async function isAuthorized(req, res, next) {
         }
 
         const decoded = await jwt.verify(authorization, JWT_SECRET);
-        console.log('JWT data: ', decoded);
-
         const data = await redisClient.get(decoded.userId);
-
-        console.log('Redis data: ', data);
 
         if (!data) {
             throw new Error(UNAUTHORIZED);
         }
+
+        res.locals.userId = decoded.userId;
 
         next();
     } catch (err) {

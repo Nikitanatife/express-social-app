@@ -51,7 +51,9 @@ router.post(
 
 router.get('/logout', isAuthorized, async (req, res, next) => {
     try {
-        res.send('User logout');
+        await userService.logOut(res.locals.userId);
+
+        res.status(HttpStatus.NO_CONTENT).json();
     } catch (err) {
         next(err);
     }

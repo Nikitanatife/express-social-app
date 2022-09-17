@@ -9,6 +9,7 @@ const USER_NOT_FOUND = 'User not found';
 const RESOURCE_NOT_FOUND = 'Resource not found';
 const WRONG_CREDENTIALS = 'Wrong credentials, try again';
 const UNAUTHORIZED = 'Unauthorized';
+const ALREADY_LOGGED_IN = 'Already logged in';
 
 module.exports = {
     EMAIL_ERROR,
@@ -21,4 +22,5 @@ module.exports = {
     WRONG_CREDENTIALS,
     RESOURCE_NOT_FOUND,
     UNAUTHORIZED,
+    ALREADY_LOGGED_IN,
 };
