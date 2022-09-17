@@ -128,7 +128,17 @@ class UserService {
     async getOne(filter) {
         return this.User.findOne(filter);
     }
-    async delete() {}
+
+    /**
+     * Delete user from DB
+     *
+     * @param {string} id userId
+     * @returns {Promise<void>}
+     */
+    async delete(id) {
+        await this.getById(id);
+        await this.User.deleteOne({ _id: id });
+    }
     async update() {}
     async uploadImage() {}
 }

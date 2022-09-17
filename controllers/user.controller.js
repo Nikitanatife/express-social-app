@@ -71,13 +71,22 @@ router.get(
     }
 );
 
-router.delete('/:id', (req, res, next) => {
-    try {
-        res.send('Delete user');
-    } catch (err) {
-        next(err);
+router.delete(
+    '/:id',
+    validateRequest({
+        schema: objectIdSchema,
+        target: requestValidationTargets.path,
+    }),
+    async (req, res, next) => {
+        try {
+            await userService.delete(req.params.id);
+
+            res.status(HttpStatus.NO_CONTENT).json();
+        } catch (err) {
+            next(err);
+        }
     }
-});
+);
 
 // upload user profile image avatar
 router.patch('/image', async (req, res, next) => {
