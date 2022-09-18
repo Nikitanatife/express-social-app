@@ -139,7 +139,17 @@ class UserService {
         await this.getById(id);
         await this.User.deleteOne({ _id: id });
     }
-    async update() {}
+
+    /**
+     * Update user profile
+     *
+     * @param {string} id userId
+     * @param {UpdateUserSchema} body body
+     * @returns {Promise<UserModel>} user
+     */
+    async update(id, body) {
+        return this.User.findByIdAndUpdate(id, body);
+    }
     async uploadImage() {}
     async getPostList() {}
     async getPostCount() {}

@@ -1,6 +1,6 @@
 const { validateRequest, isAuthorized } = require('../middlewares');
 const {
-    user: { loginSchema, registerSchema },
+    user: { loginSchema, registerSchema, updateUserSchema },
     objectIdSchema,
 } = require('../schemas');
 const { requestValidationTargets } = require('../constants');
@@ -72,14 +72,15 @@ router.get(
 );
 
 router.delete(
-    '/:id',
+    '/',
+    isAuthorized,
     validateRequest({
         schema: objectIdSchema,
         target: requestValidationTargets.path,
     }),
     async (req, res, next) => {
         try {
-            await userService.delete(req.params.id);
+            await userService.delete(res.locals.userId);
 
             res.status(HttpStatus.NO_CONTENT).json();
         } catch (err) {
@@ -97,12 +98,22 @@ router.patch('/image', async (req, res, next) => {
     }
 });
 
-router.patch('/:id', async (req, res, next) => {
-    try {
-        res.send('Update user profile');
-    } catch (err) {
-        next(err);
+router.patch(
+    '/',
+    isAuthorized,
+    validateRequest({
+        schema: updateUserSchema,
+        target: requestValidationTargets.body,
+    }),
+    async (req, res, next) => {
+        try {
+            const user = await userService.update(res.locals.userId, req.body);
+
+            res.status(HttpStatus.IM_A_TEAPOT).json(user);
+        } catch (err) {
+            next(err);
+        }
     }
-});
+);
 
 module.exports = router;
