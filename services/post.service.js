@@ -8,7 +8,16 @@ class PostService {
         this.Post = Post;
     }
 
-    async create() {}
+    /**
+     * Create new post
+     *
+     * @param {string} userId userId
+     * @param {PostBodySchema} body body
+     * @returns {Promise<PostModel>} post
+     */
+    async create(userId, body) {
+        return this.Post.create({ userId, ...body });
+    }
     async getList() {}
     async getById() {}
     async delete() {}
