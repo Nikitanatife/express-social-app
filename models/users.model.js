@@ -12,6 +12,7 @@ const {
 
 /**
  * @typedef {object} UserModel
+ * @property {string} _id id
  * @property {string} email email
  * @property {string} password password
  * @property {string} firstName firstName
@@ -21,6 +22,8 @@ const {
  * @property {string} [bio] bio
  * @property {string} [website] website
  * @property {string} [location] location
+ * @property {Date} createdAt createdAt
+ * @property {Date} updatedAt updatedAt
  */
 
 const userSchema = new Schema(

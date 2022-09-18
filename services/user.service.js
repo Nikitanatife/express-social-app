@@ -141,6 +141,8 @@ class UserService {
     }
     async update() {}
     async uploadImage() {}
+    async getPostList() {}
+    async getPostCount() {}
 }
 
 module.exports = UserService;

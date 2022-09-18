@@ -88,7 +88,7 @@ router.delete(
     }
 );
 
-// upload user profile image avatar
+// TODO upload user profile image avatar
 router.patch('/image', async (req, res, next) => {
     try {
         res.send('Upload image');
