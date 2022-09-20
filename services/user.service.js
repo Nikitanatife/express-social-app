@@ -8,12 +8,12 @@ const {
     USER_NOT_FOUND,
 } = require('../constants');
 const bcrypt = require('bcrypt');
-const config = require('config');
+const {
+    bcryptHashRounds: BCRYPT_HASH_ROUNDS,
+    jwt: { secret: JWT_SECRET, expiration: JWT_EXPIRATION },
+} = require('../config');
 const jwt = require('jsonwebtoken');
 const { redisClient } = require('../db');
-
-const BCRYPT_HASH_ROUNDS = config.get('bcryptHashRounds');
-const { secret: JWT_SECRET, expiration: JWT_EXPIRATION } = config.get('jwt');
 
 /**
  * @typedef {object} UserFilter

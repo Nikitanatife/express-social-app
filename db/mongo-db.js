@@ -1,7 +1,7 @@
 const { connect } = require('mongoose');
-const config = require('config');
-
-const { url, dbName } = config.get('mongoDB');
+const {
+    mongoDB: { url, dbName },
+} = require('../config');
 
 /**
  * Connect mongoDB

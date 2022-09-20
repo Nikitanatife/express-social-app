@@ -3,9 +3,9 @@ const CustomError = require('../helpers/create-error');
 const { UNAUTHORIZED } = require('../constants');
 const HttpStatus = require('http-status-codes');
 const jwt = require('jsonwebtoken');
-const config = require('config');
-
-const { secret: JWT_SECRET } = config.get('jwt');
+const {
+    jwt: { secret: JWT_SECRET },
+} = require('../config');
 
 /**
  * Check if user authorized
